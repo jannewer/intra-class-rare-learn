@@ -1,0 +1,112 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "icrlearn"
+version = "0.0.1"
+description = "Add scikit-learn compatible package for intra-class rarity models."
+readme = "README.md"
+authors = [
+    { name = "Janne Wernecken", email = "dev@wernecken.com" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "black==23.3.0",
+    "matplotlib>=3.9.4",
+    "numpydoc>=1.8.0",
+    "pre-commit==3.7.1",
+    "pydata-sphinx-theme>=0.16.1",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "ruff==0.4.2",
+    "scikit-learn>=1.4.2",
+    "setuptools-scm>=8.2.0",
+    "sphinx>=7.4.7",
+    "sphinx-design>=0.6.1",
+    "sphinx-gallery>=0.19.0",
+    "sphinx-prompt>=1.8.0",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+]
+
+[dependency-groups]
+dev = [
+    "taskipy>=1.14.1",
+]
+
+# TODO: Add URLs
+# [project.urls]
+# Homepage = ""
+# Issues = ""
+
+[tool.hatch.build.targets.wheel]
+packages = ["icrlearn"]
+
+[tool.taskipy.tasks]
+black = "black --check --diff icrlearn examples"
+ruff = "ruff check --output-format=full icrlearn examples"
+lint = "uv run task black && uv run task ruff"
+test = { cmd = "uv run pytest -vsl --cov=icrlearn --cov-report=xml icrlearn" }
+build-doc = { cmd = "make html", cwd = "doc" }
+clean-doc = { cmd = "rm -rf _build", cwd = "doc" }
+
+[tool.black]
+line-length = 88
+target_version = ['py38', 'py39', 'py310']
+preview = true
+exclude = '''
+/(
+    \.eggs         # exclude a few common directories in the
+  | \.git          # root of the project
+  | \.vscode
+)/
+'''
+force-exclude = "icrlearn/_version.py"
+
+[tool.ruff]
+# max line length for black
+line-length = 88
+target-version = "py38"
+exclude = [
+    ".git",
+    "__pycache__",
+    "dist",
+    "doc/_build",
+    "doc/auto_examples",
+    "build",
+    "icrlearn/_version.py",
+]
+
+[tool.ruff.lint]
+# all rules can be found here: https://beta.ruff.rs/docs/rules/
+select = ["E", "F", "W", "I"]
+ignore = [
+    # space before : (needed for how black formats slicing)
+    "E203",
+    # do not assign a lambda expression, use a def
+    "E731",
+    # do not use variables named 'l', 'O', or 'I'
+    "E741",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# It's fine not to put the import at the top of the file in the examples
+# folder.
+"examples/*" = ["E402"]
+"doc/conf.py" = ["E402"]
+"doc/_templates/numpydoc_docstring.py" = ["F821", "W292"]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --color=yes"
+doctest_optionflags = "NORMALIZE_WHITESPACE"
