@@ -17,14 +17,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      - uses: prefix-dev/setup-pixi@v0.8.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
         with:
-          pixi-version: v0.23.0
-          environments: ${{ matrix.environment }}
-          frozen: true
+          python-version-file: ".python-version"
+
+      - name: Install the project
+        run: uv sync --all-extras --dev
 
       - name: Run tests
-        run: pixi run -e ${{ matrix.environment }} test
+        run: uv run task test
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.6.0
