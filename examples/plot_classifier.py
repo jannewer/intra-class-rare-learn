@@ -8,11 +8,11 @@ An example plot of :class:`icrlearn.template.TemplateClassifier`
 
 # %%
 # Train our classifier on very simple dataset
-from icrlearn import TemplateClassifier
+from icrlearn import ICRRandomForestClassifier
 
 X = [[0, 0], [1, 1]]
 y = [0, 1]
-clf = TemplateClassifier().fit(X, y)
+clf = ICRRandomForestClassifier().fit(X, y)
 
 # %%
 # Create a test dataset

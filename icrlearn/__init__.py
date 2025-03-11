@@ -1,10 +1,8 @@
 # Authors: Janne Wernecken
 # License: BSD 3 clause
 
-from ._template import TemplateClassifier, TemplateEstimator, TemplateTransformer
+from ._icr import ICRRandomForestClassifier
 
 __all__ = [
-    "TemplateEstimator",
-    "TemplateClassifier",
-    "TemplateTransformer",
+    "ICRRandomForestClassifier",
 ]
