@@ -1,6 +1,5 @@
-# TODO: Adjust docs!
 """
-This is a module to be used as a reference for building other modules
+This is a module for intra-class rarity estimators.
 """
 
 # Authors: Janne Wernecken
@@ -22,16 +21,12 @@ from sklearn.utils.validation import check_is_fitted, validate_data
 class ICRRandomForestClassifier(
     ClassifierMixin, BaseEstimator
 ):  # TODO: Maybe this can extend from BaseForest or BaseEnsemble?
-    # TODO: Docs
-    """An example classifier which implements a 1-NN algorithm.
-
-    For more information regarding how to build your own classifier, read more
-    in the :ref:`User Guide <user_guide>`.
+    """A classifier that uses intra-class rarity.
 
     Parameters
     ----------
-    demo_param : str, default='demo'
-        A parameter used for demonstation of how to pass and store paramters.
+    rarity_measure : str, default='lof'
+        The rarity measure to be used for the rarity score calculation.
 
     Attributes
     ----------
@@ -132,8 +127,7 @@ class ICRRandomForestClassifier(
 
     @_fit_context(prefer_skip_nested_validation=True)
     def fit(self, X, y):
-        # TODO: Docs
-        """A reference implementation of a fitting function for a classifier.
+        """Fitting function for the ICRRandomForestClassifier.
 
         Parameters
         ----------
@@ -163,12 +157,13 @@ class ICRRandomForestClassifier(
         self.X_ = X
         self.y_ = y
 
+        # TODO: Implement actual fitting here
+
         # Return the classifier
         return self
 
     def predict(self, X):
-        # TODO: Docs
-        """A reference implementation of a prediction for a classifier.
+        """Prediction function for the ICRRandomForestClassifier.
 
         Parameters
         ----------
@@ -184,5 +179,6 @@ class ICRRandomForestClassifier(
         # Input validation
         X = self._validate_X_predict(X)
 
+        # TODO: Implement actual prediction here
         closest = np.argmin(euclidean_distances(X, self.X_), axis=1)
         return self.y_[closest]

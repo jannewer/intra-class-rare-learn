@@ -1,5 +1,4 @@
-# TODO: Docs
-"""This file will just show how to write tests for the template classes."""
+"""This file holds tests for the intra-class rarity random forest models."""
 
 # Authors: Janne Wernecken
 # License: BSD 3 clause
@@ -16,8 +15,7 @@ def data():
 
 
 def test_icr_lof_rf_classifier(data):
-    # TODO: Docs
-    """Check the internals and behaviour of `TemplateClassifier`."""
+    """Check the internals and behaviour of `ICRRandomForestClassifier`."""
     X, y = data
     clf = ICRRandomForestClassifier()
     assert clf.rarity_measure == "lof"

@@ -1,4 +1,4 @@
-# Authors: scikit-learn-contrib developers
+# Authors: scikit-learn-contrib developers and Janne Wernecken
 # License: BSD 3 clause
 
 import pytest
