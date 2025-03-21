@@ -5,46 +5,19 @@ This is a module for intra-class rarity estimators.
 # Authors: Janne Wernecken
 # License: BSD 3 clause
 
-from warnings import warn
-
-import numpy as np
-from scipy.sparse import issparse
-from sklearn.base import BaseEstimator, ClassifierMixin, _fit_context
-from sklearn.exceptions import DataConversionWarning
-from sklearn.metrics import euclidean_distances
-from sklearn.utils.multiclass import check_classification_targets
-from sklearn.utils.validation import check_is_fitted, validate_data
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import LocalOutlierFactor
 
 
-# Note that the mixin class should always be on the left of `BaseEstimator` to ensure
-# the MRO works as expected.
-class ICRRandomForestClassifier(
-    ClassifierMixin, BaseEstimator
-):  # TODO: Maybe this can extend from BaseForest or BaseEnsemble?
+class ICRRandomForestClassifier(RandomForestClassifier):
+    # TODO: Extend docs
     """A classifier that uses intra-class rarity.
+    Based on scikit-learn's RandomForestClassifier.
 
     Parameters
     ----------
     rarity_measure : str, default='lof'
         The rarity measure to be used for the rarity score calculation.
-
-    Attributes
-    ----------
-    X_ : ndarray, shape (n_samples, n_features)
-        The input passed during :meth:`fit`.
-
-    y_ : ndarray, shape (n_samples,)
-        The labels passed during :meth:`fit`.
-
-    classes_ : ndarray, shape (n_classes,)
-        The classes seen at :meth:`fit`.
-
-    n_features_in_ : int
-        Number of features seen during :term:`fit`.
-
-    feature_names_in_ : ndarray of shape (`n_features_in_`,)
-        Names of features seen during :term:`fit`. Defined only when `X`
-        has feature names that are all strings.
 
     Examples
     --------
@@ -62,123 +35,41 @@ class ICRRandomForestClassifier(
            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])
     """
 
-    # This is a dictionary allowing to define the type of parameters.
-    # It used to validate parameter within the `_fit_context` decorator.
-    _parameter_constraints = {
-        "rarity_measure": [str],  # TODO: Add the list of valid values here
-    }
+    # TODO: Check how to validate the rarity measure parameter
+    # e.g. Using _parameter_constraints?
 
     def __init__(self, rarity_measure="lof"):
+        super().__init__()
         self.rarity_measure = rarity_measure
 
-    def _validate_X_predict(self, X):
-        """
-        Validate X whenever one tries to predict, apply, predict_proba.
+    def calculate_rarity_scores(self, X, y):
+        match self.rarity_measure:
+            case "lof":
+                # TODO: Implement the class-specific LOF calculation here
+                clf = LocalOutlierFactor(n_neighbors=20, contamination=0.1)
+                # Calculate LOF scores
+                clf.fit_predict(X)
+                # Get the degree of abnormality of each sample
+                # (higher values ~= normal ~= more likely to be inlier ~= less rare)
+                neg_lof = clf.negative_outlier_factor_
+                # Invert LOF scores to get a rarity score (higher values ~= more rare)
+                pos_lof = -neg_lof
 
-        Based on the implementation of the BaseForest (https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/ensemble/_forest.py#L629)
-        """
-        check_is_fitted(self)
+                return pos_lof
+            case _:
+                raise ValueError(f"Unknown rarity measure: {self.rarity_measure}")
 
-        X = validate_data(
-            self,
-            X,
-            accept_sparse=False,
-            reset=False,
-            ensure_all_finite=True,
-        )
-        if issparse(X) and (X.indices.dtype != np.intc or X.indptr.dtype != np.intc):
-            raise ValueError("No support for np.int64 index based sparse matrices")
-        return X
+    def fit(self, X, y, sample_weight=None):
+        rarity_scores = self.calculate_rarity_scores(X, y)
 
-    def _validate_X_y_fit(self, X, y):
-        """
-        Validate X and y whenever fit is called.
+        if sample_weight is not None:
+            # TODO: Is this the best way to combine sample weights and rarity scores?
+            sample_weight = sample_weight * rarity_scores
+        else:
+            sample_weight = rarity_scores
 
-        Input validation is based on the BaseForest implementation
-        (https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/ensemble/_forest.py#L329)
-        """
-        X, y = validate_data(
-            self,
-            X,
-            y,
-            multi_output=True,
-            accept_sparse=False,
-            ensure_all_finite=True,
-        )
-
-        if issparse(X):
-            # Pre-sort indices to avoid that each individual tree of the
-            # ensemble sorts the indices.
-            X.sort_indices()
-
-        y = np.atleast_1d(y)
-        if y.ndim == 2 and y.shape[1] == 1:
-            warn(
-                (
-                    "A column-vector y was passed when a 1d array was"
-                    " expected. Please change the shape of y to "
-                    "(n_samples,), for example using ravel()."
-                ),
-                DataConversionWarning,
-                stacklevel=2,
-            )
-
-        return X, y
-
-    @_fit_context(prefer_skip_nested_validation=True)
-    def fit(self, X, y):
-        """Fitting function for the ICRRandomForestClassifier.
-
-        Parameters
-        ----------
-        X : array-like, shape (n_samples, n_features)
-            The training input samples.
-
-        y : array-like, shape (n_samples,)
-            The target values. An array of int.
-
-        Returns
-        -------
-        self : object
-            Returns self.
-        """
-
-        # Input validation is based on the BaseForest implementation
-        # (https://github.com/scikit-learn/scikit-learn/blob/main/sklearn/ensemble/_forest.py#L329)
-        X, y = self._validate_X_y_fit(X, y)
-
-        # We need to make sure that we have a classification task
-        check_classification_targets(y)
-
-        # classifier should always store the classes seen during `fit`
-        self.classes_ = np.unique(y)
-
-        # Store the training data to predict later
-        self.X_ = X
-        self.y_ = y
-
-        # TODO: Implement actual fitting here
-
-        # Return the classifier
-        return self
-
-    def predict(self, X):
-        """Prediction function for the ICRRandomForestClassifier.
-
-        Parameters
-        ----------
-        X : array-like, shape (n_samples, n_features)
-            The input samples.
-
-        Returns
-        -------
-        y : ndarray, shape (n_samples,)
-            The label for each sample is the label of the closest sample
-            seen during fit.
-        """
-        # Input validation
-        X = self._validate_X_predict(X)
-
-        # TODO: Implement actual prediction here
-        closest = np.argmin(euclidean_distances(X, self.X_), axis=1)
-        return self.y_[closest]
+        # TODO: Think about other ways to use the rarity scores in the fitting process
+        # E.g. by adjusting the bootstrap sampling:
+        # --> overwrite BaseForest._get_n_samples_bootstrap()
+        # --> or set _n_samples_bootstrap directly
+        super().fit(X, y, sample_weight)
