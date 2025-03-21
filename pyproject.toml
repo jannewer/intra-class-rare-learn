@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "icrlearn"
 version = "0.0.1"
-description = "Add scikit-learn compatible package for intra-class rarity models."
+description = "A scikit-learn compatible package for intra-class rarity models."
 readme = "README.md"
 authors = [
     { name = "Janne Wernecken", email = "dev@wernecken.com" }
@@ -93,7 +93,7 @@ exclude = [
 # all rules can be found here: https://beta.ruff.rs/docs/rules/
 select = ["E", "F", "W", "I"]
 ignore = [
-    # space before : (needed for how black formats slicing)
+    # space before : (needed for how black format slicing)
     "E203",
     # do not assign a lambda expression, use a def
     "E731",
