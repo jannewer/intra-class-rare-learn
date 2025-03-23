@@ -31,9 +31,3 @@ jobs:
 
       - name: Run tests
         run: uv run task test
-
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v5.4.0
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          slug: scikit-learn-contrib/intra-class-rare-learn

@@ -1,7 +1,3 @@
-# Exclude docs completely for now until they are ready
-# TODO: Remove this line when docs are ready
-doc/
-
 # IDE files
 .idea/
 

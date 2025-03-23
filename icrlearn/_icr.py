@@ -10,8 +10,7 @@ from sklearn.neighbors import LocalOutlierFactor
 
 
 class ICRRandomForestClassifier(RandomForestClassifier):
-    # TODO: Extend docs
-    """A classifier that uses intra-class rarity.
+    """A RF classifier that uses intra-class rarity.
     Based on scikit-learn's RandomForestClassifier.
 
     Parameters
@@ -35,14 +34,32 @@ class ICRRandomForestClassifier(RandomForestClassifier):
            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])
     """
 
-    # TODO: Check how to validate the rarity measure parameter
-    # e.g. Using _parameter_constraints?
-
     def __init__(self, rarity_measure="lof"):
         super().__init__()
         self.rarity_measure = rarity_measure
 
     def calculate_rarity_scores(self, X, y):
+        """
+        Calculate rarity scores for each sample in the dataset.
+
+        Parameters
+        ----------
+        X : {array-like, sparse matrix} of shape (n_samples, n_features)
+            The input samples. Internally, its dtype will be converted
+            to ``dtype=np.float32``. If a sparse matrix is provided, it will be
+            converted into a sparse ``csc_matrix``.
+
+        y : array-like of shape (n_samples,) or (n_samples, n_outputs)
+            The class labels of the input samples.
+
+        Returns
+        -------
+
+        rarity_scores : array-like of shape (n_samples,)
+            The rarity scores for each input sample.
+
+        """
+
         match self.rarity_measure:
             case "lof":
                 # TODO: Implement the class-specific LOF calculation here
@@ -63,13 +80,10 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         rarity_scores = self.calculate_rarity_scores(X, y)
 
         if sample_weight is not None:
-            # TODO: Is this the best way to combine sample weights and rarity scores?
             sample_weight = sample_weight * rarity_scores
         else:
             sample_weight = rarity_scores
 
-        # TODO: Think about other ways to use the rarity scores in the fitting process
-        # E.g. by adjusting the bootstrap sampling:
-        # --> overwrite BaseForest._get_n_samples_bootstrap()
-        # --> or set _n_samples_bootstrap directly
         super().fit(X, y, sample_weight)
+
+        return self

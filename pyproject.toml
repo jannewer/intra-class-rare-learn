@@ -22,6 +22,7 @@ dependencies = [
     "ruff>=0.9.10",
     "scikit-learn>=1.4.2",
     "scipy>=1.13.1",
+    "seaborn>=0.13.2",
     "setuptools-scm>=8.2.0",
     "sphinx>=7.4.7",
     "sphinx-design>=0.6.1",
@@ -46,10 +47,9 @@ dev = [
     "taskipy>=1.14.1",
 ]
 
-# TODO: Add URLs
-# [project.urls]
-# Homepage = ""
-# Issues = ""
+[project.urls]
+Homepage = "https://github.com/jannewer/intra-class-rare-learn"
+Issues = "https://github.com/jannewer/intra-class-rare-learn/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["icrlearn"]

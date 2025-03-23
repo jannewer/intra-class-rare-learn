@@ -1,41 +1,43 @@
 """
-============================
-Plotting Template Classifier
-============================
+============================================
+Fitting and evaluating an ICR Random Forest
+============================================
 
-An example plot of :class:`icrlearn.template.TemplateClassifier`
+In this example we fit and evaluate an
+:class:`icrlearn.ICRRandomForestClassifier` on the Iris dataset.
 """
 
 # %%
-# Train our classifier on very simple dataset
+# Load the Iris dataset and split it into training and test sets
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+X, y = load_iris(return_X_y=True)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# %%
+# Train an ICRRandomForestClassifier on the training set
 from icrlearn import ICRRandomForestClassifier
 
-X = [[0, 0], [1, 1]]
-y = [0, 1]
-clf = ICRRandomForestClassifier().fit(X, y)
+clf = ICRRandomForestClassifier().fit(X_train, y_train)
 
 # %%
-# Create a test dataset
-import numpy as np
+# Evaluate the classifier on the test set and print some metrics
+from sklearn.metrics import classification_report
 
-rng = np.random.RandomState(13)
-X_test = rng.rand(500, 2)
+y_pred = clf.predict(X_test)
+classification_report = classification_report(y_test, y_pred)
+print(classification_report)
 
 # %%
-# Use scikit-learn to display the decision boundary
-from sklearn.inspection import DecisionBoundaryDisplay
+# Plot a confusion matrix of the classifier's predictions
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
-disp = DecisionBoundaryDisplay.from_estimator(clf, X_test)
-disp.ax_.scatter(
-    X_test[:, 0],
-    X_test[:, 1],
-    c=clf.predict(X_test),
-    s=20,
-    edgecolors="k",
-    linewidths=0.5,
-)
-disp.ax_.set(
-    xlabel="Feature 1",
-    ylabel="Feature 2",
-    title="Template Classifier Decision Boundary",
-)
+conf_matr = confusion_matrix(y_test, y_pred)
+sns.heatmap(conf_matr, annot=True)
+plt.xlabel("Predicted")
+plt.ylabel("True")
+plt.show()
