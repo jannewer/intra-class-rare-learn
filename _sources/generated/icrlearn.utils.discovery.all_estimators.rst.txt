@@ -1,0 +1,6 @@
+﻿icrlearn.utils.discovery.all\_estimators
+========================================
+
+.. currentmodule:: icrlearn.utils.discovery
+
+.. autofunction:: all_estimators

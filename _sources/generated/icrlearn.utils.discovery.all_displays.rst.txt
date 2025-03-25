@@ -1,0 +1,6 @@
+﻿icrlearn.utils.discovery.all\_displays
+======================================
+
+.. currentmodule:: icrlearn.utils.discovery
+
+.. autofunction:: all_displays

@@ -1,0 +1,62 @@
+﻿ICRRandomForestClassifier
+================================================
+
+.. currentmodule:: icrlearn
+
+.. autoclass:: ICRRandomForestClassifier
+
+   
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      
+      
+        ~ICRRandomForestClassifier.apply
+      
+      
+        ~ICRRandomForestClassifier.calculate_rarity_scores
+      
+      
+        ~ICRRandomForestClassifier.decision_path
+      
+      
+        ~ICRRandomForestClassifier.fit
+      
+      
+        ~ICRRandomForestClassifier.get_metadata_routing
+      
+      
+        ~ICRRandomForestClassifier.get_params
+      
+      
+        ~ICRRandomForestClassifier.predict
+      
+      
+        ~ICRRandomForestClassifier.predict_log_proba
+      
+      
+        ~ICRRandomForestClassifier.predict_proba
+      
+      
+        ~ICRRandomForestClassifier.score
+      
+      
+        ~ICRRandomForestClassifier.set_fit_request
+      
+      
+        ~ICRRandomForestClassifier.set_params
+      
+      
+        ~ICRRandomForestClassifier.set_score_request
+      
+   
+   
+
+.. include:: icrlearn.ICRRandomForestClassifier.examples
+
+.. raw:: html
+
+    <div style='clear:both'></div>
