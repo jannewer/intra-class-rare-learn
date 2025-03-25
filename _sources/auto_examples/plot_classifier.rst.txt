@@ -90,12 +90,12 @@ Evaluate the classifier on the test set and print some metrics
 
                   precision    recall  f1-score   support
 
-               0       1.00      1.00      1.00        13
-               1       1.00      0.86      0.92         7
-               2       0.91      1.00      0.95        10
+               0       1.00      1.00      1.00         9
+               1       0.91      1.00      0.95        10
+               2       1.00      0.91      0.95        11
 
         accuracy                           0.97        30
-       macro avg       0.97      0.95      0.96        30
+       macro avg       0.97      0.97      0.97        30
     weighted avg       0.97      0.97      0.97        30
 
 
@@ -134,7 +134,7 @@ Plot a confusion matrix of the classifier's predictions
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 0.596 seconds)
+   **Total running time of the script:** (0 minutes 0.579 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_classifier.py:
