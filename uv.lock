@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.9"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -567,7 +568,7 @@ requires-dist = [
     { name = "black", specifier = "==23.3.0" },
     { name = "matplotlib", specifier = ">=3.9.4" },
     { name = "numpydoc", specifier = ">=1.8.0" },
-    { name = "pre-commit", specifier = "==3.7.1" },
+    { name = "pre-commit", specifier = ">=3.7.1" },
     { name = "pydata-sphinx-theme", specifier = ">=0.16.1" },
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "pytest-cov", specifier = ">=6.0.0" },
