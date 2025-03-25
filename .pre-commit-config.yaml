@@ -18,3 +18,10 @@ repos:
         args: [ --fix ]
       # Run the formatter.
       - id: ruff-format
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.6.9
+    hooks:
+      # Update the lock file.
+      - id: uv-lock
+      # Update the requirements file.
+      - id: uv-export

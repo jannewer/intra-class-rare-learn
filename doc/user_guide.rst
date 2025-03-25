@@ -7,7 +7,7 @@ User Guide
 ==========
 
 ICRRandomForestClassifier
----------
+-------------------------
 
 The icrlearn package provides a new algorithm called Intra-Class Rare Random Forest.
 This algorithm is a modification of the Random Forest algorithm that is designed to
