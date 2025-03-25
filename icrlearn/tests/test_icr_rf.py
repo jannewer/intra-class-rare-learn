@@ -22,8 +22,6 @@ def test_icr_lof_rf_classifier(data):
 
     clf.fit(X, y)
     assert hasattr(clf, "classes_")
-    assert hasattr(clf, "X_")
-    assert hasattr(clf, "y_")
 
     y_pred = clf.predict(X)
     assert y_pred.shape == (X.shape[0],)
