@@ -8,6 +8,14 @@ This is a module for intra-class rarity estimators.
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import LocalOutlierFactor
+from sklearn.tree._tree import DTYPE, issparse
+from sklearn.utils.multiclass import check_classification_targets
+from sklearn.utils.validation import (
+    _num_samples,
+    check_is_fitted,
+    get_tags,
+    validate_data,
+)
 
 
 class ICRRandomForestClassifier(RandomForestClassifier):
@@ -85,6 +93,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
     def __sklearn_tags__(self):
         tags = super().__sklearn_tags__()
         tags.classifier_tags.multi_label = False
+        tags.input_tags.allow_nan = self.rarity_measure != "lof"
         return tags
 
     def calculate_rarity_scores(self, X, y):
@@ -111,16 +120,18 @@ class ICRRandomForestClassifier(RandomForestClassifier):
 
         match self.rarity_measure:
             case "lof":
-                rarity_scores = np.zeros(X.shape[0])
+                rarity_scores = np.zeros(_num_samples(X))
 
                 unique_classes = np.unique(y)
                 for class_label in unique_classes:
-                    class_indices = np.where(y == class_label)
+                    class_indices = np.where(y == class_label)[0]
                     X_class = X[class_indices]
 
                     lof = LocalOutlierFactor()
                     lof.fit_predict(X_class)
                     lof_values_class = lof.negative_outlier_factor_
+                    # Invert the sign of the LOF values to get a positive rarity scores
+                    lof_values_class = -lof_values_class
 
                     rarity_scores[class_indices] = lof_values_class
 
@@ -129,6 +140,18 @@ class ICRRandomForestClassifier(RandomForestClassifier):
                 raise ValueError(f"Unknown rarity measure: {self.rarity_measure}")
 
     def fit(self, X, y, sample_weight=None):
+        ensure_all_finite = "allow-nan" if get_tags(self).input_tags.allow_nan else True
+        X, y = validate_data(
+            self,
+            X,
+            y,
+            multi_output=True,
+            accept_sparse="csc",
+            dtype=DTYPE,
+            ensure_all_finite=ensure_all_finite,
+        )
+        check_classification_targets(y)
+
         rarity_scores = self.calculate_rarity_scores(X, y)
 
         if sample_weight is not None:
@@ -139,3 +162,26 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         super().fit(X, y, sample_weight)
 
         return self
+
+    def _validate_X_predict(self, X):
+        """Validate X whenever one tries to predict, apply, predict_proba."""
+        check_is_fitted(self)
+
+        if (get_tags(self).input_tags.allow_nan) & (
+            self.estimators_[0]._support_missing_values(X)
+        ):
+            ensure_all_finite = "allow-nan"
+        else:
+            ensure_all_finite = True
+
+        X = validate_data(
+            self,
+            X,
+            dtype=DTYPE,
+            accept_sparse="csr",
+            reset=False,
+            ensure_all_finite=ensure_all_finite,
+        )
+        if issparse(X) and (X.indices.dtype != np.intc or X.indptr.dtype != np.intc):
+            raise ValueError("No support for np.int64 index based sparse matrices")
+        return X
