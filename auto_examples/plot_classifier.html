@@ -403,15 +403,21 @@ to download the full example code.</p>
 <span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">classification_report</span></a><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>              precision    recall  f1-score   support
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/intra-class-rare-learn/intra-class-rare-learn/.venv/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f&quot;{metric.capitalize()} is&quot;, len(result))
+/home/runner/work/intra-class-rare-learn/intra-class-rare-learn/.venv/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f&quot;{metric.capitalize()} is&quot;, len(result))
+/home/runner/work/intra-class-rare-learn/intra-class-rare-learn/.venv/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1565: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f&quot;{metric.capitalize()} is&quot;, len(result))
+              precision    recall  f1-score   support
 
-           0       1.00      1.00      1.00        10
-           1       0.92      1.00      0.96        12
-           2       1.00      0.88      0.93         8
+           0       0.00      0.00      0.00        13
+           1       0.20      1.00      0.33         6
+           2       0.00      0.00      0.00        11
 
-    accuracy                           0.97        30
-   macro avg       0.97      0.96      0.96        30
-weighted avg       0.97      0.97      0.97        30
+    accuracy                           0.20        30
+   macro avg       0.07      0.33      0.11        30
+weighted avg       0.04      0.20      0.07        30
 </pre></div>
 </div>
 <p>Plot a confusion matrix of the classifier’s predictions</p>
@@ -426,7 +432,7 @@ weighted avg       0.97      0.97      0.97        30
 <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="matplotlib.pyplot.show" class="sphx-glr-backref-module-matplotlib-pyplot sphx-glr-backref-type-py-function"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../_images/sphx_glr_plot_classifier_001.png" srcset="../_images/sphx_glr_plot_classifier_001.png" alt="plot classifier" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.662 seconds)</p>
+<img src="../_images/sphx_glr_plot_classifier_001.png" srcset="../_images/sphx_glr_plot_classifier_001.png" alt="plot classifier" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.592 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-classifier-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/fed3e85cac62fc93e088aa8cb008d467/plot_classifier.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_classifier.ipynb</span></code></a></p>
