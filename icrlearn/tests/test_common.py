@@ -1,4 +1,6 @@
-"""This file shows how to write test based on the scikit-learn common tests."""
+"""All scikit-learn common tests.
+This makes sure that ICRRandomForestClassifier is compatible with the scikit-learn API.
+"""
 
 # Authors: scikit-learn-contrib developers
 # License: BSD 3 clause

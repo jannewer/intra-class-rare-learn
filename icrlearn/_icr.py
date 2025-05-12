@@ -7,15 +7,15 @@ This is a module for intra-class rarity estimators.
 
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import LocalOutlierFactor
 from sklearn.tree._tree import DTYPE, issparse
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.utils.validation import (
-    _num_samples,
     check_is_fitted,
     get_tags,
     validate_data,
 )
+
+from icrlearn.rarity.class_lof import calculate_class_lof
 
 
 class ICRRandomForestClassifier(RandomForestClassifier):
@@ -115,27 +115,11 @@ class ICRRandomForestClassifier(RandomForestClassifier):
 
         rarity_scores : array-like of shape (n_samples,)
             The rarity scores for each input sample.
-
         """
 
         match self.rarity_measure:
             case "lof":
-                rarity_scores = np.zeros(_num_samples(X))
-
-                unique_classes = np.unique(y)
-                for class_label in unique_classes:
-                    class_indices = np.where(y == class_label)[0]
-                    X_class = X[class_indices]
-
-                    lof = LocalOutlierFactor()
-                    lof.fit_predict(X_class)
-                    lof_values_class = lof.negative_outlier_factor_
-                    # Invert the sign of the LOF values to get a positive rarity scores
-                    lof_values_class = -lof_values_class
-
-                    rarity_scores[class_indices] = lof_values_class
-
-                return rarity_scores
+                return calculate_class_lof(X, y)
             case _:
                 raise ValueError(f"Unknown rarity measure: {self.rarity_measure}")
 

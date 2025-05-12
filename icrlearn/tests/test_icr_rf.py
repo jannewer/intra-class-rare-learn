@@ -1,4 +1,4 @@
-"""This file holds tests for the intra-class rarity random forest models."""
+"""Tests for the intra-class rarity random forest models."""
 
 # Authors: Janne Wernecken
 # License: BSD 3 clause
