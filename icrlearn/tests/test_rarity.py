@@ -6,7 +6,7 @@
 import numpy as np
 import pytest
 
-from icrlearn.rarity.class_lof import calculate_class_lof
+from icrlearn.rarity._class_lof import calculate_class_lof
 
 
 @pytest.fixture

@@ -15,7 +15,7 @@ from sklearn.utils.validation import (
     validate_data,
 )
 
-from icrlearn.rarity.class_lof import calculate_class_lof
+from icrlearn.rarity import calculate_class_lof
 
 
 class ICRRandomForestClassifier(RandomForestClassifier):
