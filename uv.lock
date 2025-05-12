@@ -1,5 +1,4 @@
 version = 1
-revision = 1
 requires-python = ">=3.9"
 resolution-markers = [
     "python_full_version >= '3.12'",
@@ -541,6 +540,7 @@ dependencies = [
     { name = "numpydoc" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
+    { name = "pynomaly" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
@@ -570,6 +570,7 @@ requires-dist = [
     { name = "numpydoc", specifier = ">=1.8.0" },
     { name = "pre-commit", specifier = ">=3.7.1" },
     { name = "pydata-sphinx-theme", specifier = ">=0.16.1" },
+    { name = "pynomaly", specifier = ">=0.3.4" },
     { name = "pytest", specifier = ">=8.3.5" },
     { name = "pytest-cov", specifier = ">=6.0.0" },
     { name = "ruff", specifier = ">=0.9.10" },
@@ -1446,6 +1447,20 @@ wheels = [
 ]
 
 [[package]]
+name = "pynomaly"
+version = "0.3.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy", version = "2.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
+    { name = "numpy", version = "2.2.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
+    { name = "python-utils" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/bb/6c/bb98854999794f1d11d08885f19a740bf6650ce6f2bfd4db6235311d4ad3/PyNomaly-0.3.4.tar.gz", hash = "sha256:90c5e3b58fa3dc144cdcb145afdecb212131e269a5be67173293e18acdd73c6f", size = 8374 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/03/00/0af76dc221eb34f0d98af54024955ddc16080057a69d4c19329811aabc03/PyNomaly-0.3.4-py3-none-any.whl", hash = "sha256:e653f1e1c9a70c92170829f7440841e3b004528e1a1bfaea5e830e53fca26822", size = 9149 },
+]
+
+[[package]]
 name = "pyparsing"
 version = "3.2.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1494,6 +1509,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/66/c0/0c8b6ad9f17a802ee498c46e004a0eb49bc148f2fd230864601a86dcf6db/python-dateutil-2.9.0.post0.tar.gz", hash = "sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3", size = 342432 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ec/57/56b9bcc3c9c6a792fcbaf139543cee77261f3651ca9da0c93f5c1221264b/python_dateutil-2.9.0.post0-py2.py3-none-any.whl", hash = "sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427", size = 229892 },
+]
+
+[[package]]
+name = "python-utils"
+version = "3.9.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/13/4c/ef8b7b1046d65c1f18ca31e5235c7d6627ca2b3f389ab1d44a74d22f5cc9/python_utils-3.9.1.tar.gz", hash = "sha256:eb574b4292415eb230f094cbf50ab5ef36e3579b8f09e9f2ba74af70891449a0", size = 35403 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d4/69/31c82567719b34d8f6b41077732589104883771d182a9f4ff3e71430999a/python_utils-3.9.1-py2.py3-none-any.whl", hash = "sha256:0273d7363c7ad4b70999b2791d5ba6b55333d6f7a4e4c8b6b39fb82b5fab4613", size = 32078 },
 ]
 
 [[package]]

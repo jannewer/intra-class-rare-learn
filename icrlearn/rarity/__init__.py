@@ -1,3 +1,3 @@
-from ._class_lof import calculate_class_lof
+from ._cb_loop import calculate_cb_loop
 
-__all__ = ["calculate_class_lof"]
+__all__ = ["calculate_cb_loop"]

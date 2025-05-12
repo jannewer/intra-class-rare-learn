@@ -15,7 +15,7 @@ from sklearn.utils.validation import (
     validate_data,
 )
 
-from icrlearn.rarity import calculate_class_lof
+from icrlearn.rarity import calculate_cb_loop
 
 
 class ICRRandomForestClassifier(RandomForestClassifier):
@@ -24,7 +24,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
 
     Parameters
     ----------
-    rarity_measure : str, default='lof'
+    rarity_measure : str, default='cb_loop'
         The rarity measure to be used for the rarity score calculation.
 
     Examples
@@ -65,7 +65,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         ccp_alpha=0.0,
         max_samples=None,
         monotonic_cst=None,
-        rarity_measure="lof",
+        rarity_measure="cb_loop",
     ):
         super().__init__(
             n_estimators=n_estimators,
@@ -93,7 +93,8 @@ class ICRRandomForestClassifier(RandomForestClassifier):
     def __sklearn_tags__(self):
         tags = super().__sklearn_tags__()
         tags.classifier_tags.multi_label = False
-        tags.input_tags.allow_nan = self.rarity_measure != "lof"
+        tags.input_tags.allow_nan = self.rarity_measure != "cb_loop"
+        tags.input_tags.sparse = self.rarity_measure != "cb_loop"
         return tags
 
     def calculate_rarity_scores(self, X, y):
@@ -118,19 +119,20 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         """
 
         match self.rarity_measure:
-            case "lof":
-                return calculate_class_lof(X, y)
+            case "cb_loop":
+                return calculate_cb_loop(X, y)
             case _:
                 raise ValueError(f"Unknown rarity measure: {self.rarity_measure}")
 
     def fit(self, X, y, sample_weight=None):
         ensure_all_finite = "allow-nan" if get_tags(self).input_tags.allow_nan else True
+        accept_sparse = "csc" if get_tags(self).input_tags.sparse else "csr"
         X, y = validate_data(
             self,
             X,
             y,
             multi_output=True,
-            accept_sparse="csc",
+            accept_sparse=accept_sparse,
             dtype=DTYPE,
             ensure_all_finite=ensure_all_finite,
         )

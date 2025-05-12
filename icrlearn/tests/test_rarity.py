@@ -6,7 +6,7 @@
 import numpy as np
 import pytest
 
-from icrlearn.rarity._class_lof import calculate_class_lof
+from icrlearn.rarity._cb_loop import calculate_cb_loop
 
 
 @pytest.fixture
@@ -80,24 +80,24 @@ def data():
     return X, y
 
 
-def test_class_lof(data):
+def test_cb_loop(data):
     X, y = data
 
-    actual_rarity_scores = calculate_class_lof(X, y)
+    actual_rarity_scores = calculate_cb_loop(X, y)
     assert len(actual_rarity_scores) == len(X)
     assert len(actual_rarity_scores) == len(y)
     assert np.all(np.isfinite(actual_rarity_scores))
     assert np.all(actual_rarity_scores >= 0)
 
-    # rare samples have a rarity score > 1
-    # for the test case the threshold is set to 1.5
+    # Rare samples have a rarity score close to 1
+    # For the test case the threshold is set to 0.8
     index_first_rare_sample = int(len(X) / 2 - 1)
     index_second_rare_sample = len(X) - 1
-    assert actual_rarity_scores[index_first_rare_sample] > 1.5
-    assert actual_rarity_scores[index_second_rare_sample] > 1.5
+    assert actual_rarity_scores[index_first_rare_sample] > 0.8
+    assert actual_rarity_scores[index_second_rare_sample] > 0.8
 
-    # assert that all other samples have a rarity score < 1.5
+    # All other samples should have a rarity score < 0.8
     non_rare_samples = np.delete(
         np.arange(len(X)), [index_first_rare_sample, index_second_rare_sample]
     )
-    assert np.all(actual_rarity_scores[non_rare_samples] < 1.5)
+    assert np.all(actual_rarity_scores[non_rare_samples] < 0.8)

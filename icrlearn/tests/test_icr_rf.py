@@ -14,11 +14,11 @@ def data():
     return load_iris(return_X_y=True)
 
 
-def test_icr_lof_rf_classifier(data):
+def test_icr_cb_loop_rf_classifier(data):
     """Check the internals and behaviour of `ICRRandomForestClassifier`."""
     X, y = data
     clf = ICRRandomForestClassifier()
-    assert clf.rarity_measure == "lof"
+    assert clf.rarity_measure == "cb_loop"
 
     clf.fit(X, y)
     assert hasattr(clf, "classes_")

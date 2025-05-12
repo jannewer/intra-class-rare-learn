@@ -8,7 +8,7 @@ from icrlearn.utils.discovery import all_displays, all_estimators, all_functions
 
 def test_all_estimators():
     estimators = all_estimators()
-    assert len(estimators) == 3
+    assert len(estimators) == 2
 
     estimators = all_estimators(type_filter="classifier")
     assert len(estimators) == 2

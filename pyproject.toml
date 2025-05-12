@@ -17,6 +17,7 @@ dependencies = [
     "numpydoc>=1.8.0",
     "pre-commit>=3.7.1",
     "pydata-sphinx-theme>=0.16.1",
+    "pynomaly>=0.3.4",
     "pytest>=8.3.5",
     "pytest-cov>=6.0.0",
     "ruff>=0.9.10",
