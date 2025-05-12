@@ -1,9 +1,13 @@
 import numpy as np
+import pandas as pd
 from sklearn.neighbors import LocalOutlierFactor
 from sklearn.utils.validation import _num_samples
 
 
 def calculate_class_lof(X, y):
+    if isinstance(X, pd.DataFrame):
+        X = X.values
+
     rarity_scores = np.zeros(_num_samples(X))
 
     unique_classes = np.unique(y)
