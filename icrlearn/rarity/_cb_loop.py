@@ -6,7 +6,7 @@ from sklearn.utils.validation import _num_samples
 
 def calculate_cb_loop(X, y):
     if isinstance(X, pd.DataFrame):
-        X = X.to_numpy()
+        X = X.values
 
     rarity_scores = np.zeros(_num_samples(X))
 
@@ -20,7 +20,7 @@ def calculate_cb_loop(X, y):
             rarity_scores[class_indices] = 1
             continue
 
-        fitted_loop = loop.LocalOutlierProbability(X_class, progress_bar=True).fit()
+        fitted_loop = loop.LocalOutlierProbability(X_class).fit()
         loop_values_class = fitted_loop.local_outlier_probabilities
 
         rarity_scores[class_indices] = loop_values_class
