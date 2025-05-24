@@ -1,17 +1,26 @@
+import sys
+import timeit
+
 import numpy as np
 import pandas as pd
 from PyNomaly import loop
 from sklearn.utils.validation import _num_samples
 
 
-def calculate_cb_loop(X, y):
+def calculate_cb_loop(X, y, timing=False):
     if isinstance(X, pd.DataFrame):
-        X = X.values
+        X = X.to_numpy()
 
+    use_numba = "numba" in sys.modules
     rarity_scores = np.zeros(_num_samples(X))
 
     unique_classes = np.unique(y)
     for class_label in unique_classes:
+        start_time = None
+        if timing:
+            start_time = timeit.default_timer()
+            print(f"CB-LoOP: Processing class {class_label}...")
+
         class_indices = np.where(y == class_label)[0]
         X_class = X[class_indices]
 
@@ -20,8 +29,15 @@ def calculate_cb_loop(X, y):
             rarity_scores[class_indices] = 1
             continue
 
-        fitted_loop = loop.LocalOutlierProbability(X_class).fit()
+        fitted_loop = loop.LocalOutlierProbability(X_class, use_numba=use_numba).fit()
         loop_values_class = fitted_loop.local_outlier_probabilities
 
         rarity_scores[class_indices] = loop_values_class
+
+        if timing:
+            end_time = timeit.default_timer()
+            print(
+                f"CB-LoOP: Time taken for class {class_label}:"
+                f" {end_time - start_time:.4f} seconds"
+            )
     return rarity_scores
