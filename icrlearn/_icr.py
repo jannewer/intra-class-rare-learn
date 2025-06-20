@@ -17,6 +17,7 @@ from sklearn.utils.validation import (
 )
 
 from icrlearn.rarity import calculate_cb_loop
+from icrlearn.rarity._l2min import calculate_l2min
 
 
 class ICRRandomForestClassifier(RandomForestClassifier):
@@ -94,8 +95,12 @@ class ICRRandomForestClassifier(RandomForestClassifier):
     def __sklearn_tags__(self):
         tags = super().__sklearn_tags__()
         tags.classifier_tags.multi_label = False
-        tags.input_tags.allow_nan = self.rarity_measure != "cb_loop"
-        tags.input_tags.sparse = self.rarity_measure != "cb_loop"
+        tags.input_tags.allow_nan = (
+            self.rarity_measure != "cb_loop" and self.rarity_measure != "l2min"
+        )
+        tags.input_tags.sparse = (
+            self.rarity_measure != "cb_loop" and self.rarity_measure != "l2min"
+        )
         return tags
 
     def calculate_rarity_scores(self, X, y):
@@ -124,6 +129,16 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         match self.rarity_measure:
             case "cb_loop":
                 return calculate_cb_loop(X_scaled, y)
+            case "l2min":
+                scores = calculate_l2min(X_scaled, y)
+
+                # in case of multi-output, take the mean across outputs
+                # this is to ensure compatibility with the RandomForestClassifier
+                # as the sample_weight parameter expects a 1D array
+                if scores.ndim > 1:
+                    return np.mean(scores, axis=1)
+
+                return scores
             case _:
                 raise ValueError(f"Unknown rarity measure: {self.rarity_measure}")
 

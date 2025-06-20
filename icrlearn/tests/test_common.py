@@ -47,4 +47,10 @@ def _get_all_expected_failed_checks(estimator):
 )
 def test_estimators(estimator, check, request):
     """Check the compatibility with scikit-learn API"""
-    check(estimator)
+
+    if estimator.__class__ == ICRRandomForestClassifier:
+        # test with different parameters
+        check(estimator.set_params(rarity_measure="cb_loop"))
+        check(estimator.set_params(rarity_measure="l2min"))
+    else:
+        check(estimator)
