@@ -7,6 +7,7 @@ This is a module for intra-class rarity estimators.
 
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import robust_scale
 from sklearn.tree._tree import DTYPE, issparse
 from sklearn.utils.multiclass import check_classification_targets
 from sklearn.utils.validation import (
@@ -118,9 +119,11 @@ class ICRRandomForestClassifier(RandomForestClassifier):
             The rarity scores for each input sample.
         """
 
+        X_scaled = robust_scale(X)
+
         match self.rarity_measure:
             case "cb_loop":
-                return calculate_cb_loop(X, y)
+                return calculate_cb_loop(X_scaled, y)
             case _:
                 raise ValueError(f"Unknown rarity measure: {self.rarity_measure}")
 
