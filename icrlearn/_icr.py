@@ -201,7 +201,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         rarity_adjustment_method="bootstrap_sampling",
         n_neighbors=None,
         min_rarity_score=0.5,
-        cb_loop_extent=3,
+        cb_loop_extent=2,
         l2min_psi=1,
     ):
         super().__init__(

@@ -34,9 +34,21 @@ def calculate_cb_loop(X, y, min_score=0.5, extent=3, n_neighbors=10, timing=Fals
         ).fit()
         loop_values_class = fitted_loop.local_outlier_probabilities
 
+        if min_score == 0.0:
+            # If min_score is 0, return the loop values directly
+            rarity_scores[class_indices] = loop_values_class
+
+            if timing:
+                end_time = timeit.default_timer()
+                print(
+                    f"CB-LoOP: Time taken for class {class_label}:"
+                    f" {end_time - start_time:.4f} seconds"
+                )
+
+            continue
+
         # Scale the loop values to the range [min_score, 2 * min_score]
         loop_values_class = min_score * (loop_values_class + 1)
-
         rarity_scores[class_indices] = loop_values_class
 
         if timing:

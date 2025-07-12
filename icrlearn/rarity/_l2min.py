@@ -18,6 +18,9 @@ def calculate_l2min(X, y, n_neighbors=5, psi=1, beta=0.5):
     count_other_classes = (y[knn_indices] != y[:, None]).sum(axis=1)
     scaled_count_other_classes = count_other_classes**psi
     proportion_other_classes = scaled_count_other_classes / n_neighbors
-    scaled_proportion_other_classes = (proportion_other_classes + 1) * beta
 
+    if beta == 0.0:
+        return proportion_other_classes
+
+    scaled_proportion_other_classes = (proportion_other_classes + 1) * beta
     return scaled_proportion_other_classes
