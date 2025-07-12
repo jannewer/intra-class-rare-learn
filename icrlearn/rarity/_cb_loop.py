@@ -7,7 +7,7 @@ from PyNomaly import loop
 from sklearn.utils.validation import _num_samples
 
 
-def calculate_cb_loop(X, y, timing=False):
+def calculate_cb_loop(X, y, min_score=0.5, extent=3, n_neighbors=10, timing=False):
     if isinstance(X, pd.DataFrame):
         X = X.to_numpy()
 
@@ -29,8 +29,13 @@ def calculate_cb_loop(X, y, timing=False):
             rarity_scores[class_indices] = 1
             continue
 
-        fitted_loop = loop.LocalOutlierProbability(X_class, use_numba=use_numba).fit()
+        fitted_loop = loop.LocalOutlierProbability(
+            X_class, extent=extent, n_neighbors=n_neighbors, use_numba=use_numba
+        ).fit()
         loop_values_class = fitted_loop.local_outlier_probabilities
+
+        # Scale the loop values to the range [min_score, 2 * min_score]
+        loop_values_class = min_score * (loop_values_class + 1)
 
         rarity_scores[class_indices] = loop_values_class
 

@@ -140,6 +140,25 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         bootstrap sampling process or "sample_weights" to use the rarity scores to
         weight the samples in the trees of the forest instead.
 
+    n_neighbors : int, default=None
+        The number of neighbors to consider for the rarity score calculation.
+        If None, defaults to 10 for "cb_loop" and 5 for "l2min".
+
+    min_rarity_score : float, default=0.5
+        The minimum rarity score to assign to samples that are not rare.
+
+    cb_loop_extent : int, default=3
+        The extent parameter for the CB-LoOP algorithm. Only used if
+        `rarity_measure` is set to "cb_loop". This parameter controls the
+        sensitivity of the scoring.
+        See `PyNomaly documentation <https://github.com/vc1492a/PyNomaly?tab=readme-ov-file#choosing-parameters>`__ for more details.
+
+    l2min_psi : float, default=1
+        The psi parameter for the L^2_min algorithm. Only used if
+        `rarity_measure` is set to "l2min". This parameter controls the
+        scaling of the count of other classes in the neighborhood.
+        The default of 1 equates to a linear scaling.
+
     Examples
     --------
     >>> from sklearn.datasets import load_iris
@@ -150,7 +169,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
     array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
            2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2])
@@ -180,6 +199,10 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         monotonic_cst=None,
         rarity_measure="cb_loop",
         rarity_adjustment_method="bootstrap_sampling",
+        n_neighbors=None,
+        min_rarity_score=0.5,
+        cb_loop_extent=3,
+        l2min_psi=1,
     ):
         super().__init__(
             n_estimators=n_estimators,
@@ -204,6 +227,10 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         )
         self.rarity_measure = rarity_measure
         self.rarity_adjustment_method = rarity_adjustment_method
+        self.n_neighbors = n_neighbors
+        self.min_rarity_score = min_rarity_score
+        self.cb_loop_extent = cb_loop_extent
+        self.l2min_psi = l2min_psi
 
     def __sklearn_tags__(self):
         tags = super().__sklearn_tags__()
@@ -241,9 +268,23 @@ class ICRRandomForestClassifier(RandomForestClassifier):
 
         match self.rarity_measure:
             case "cb_loop":
-                return calculate_cb_loop(X_scaled, y)
+                n_neighbors_cb_loop = self.n_neighbors if self.n_neighbors else 10
+                return calculate_cb_loop(
+                    X_scaled,
+                    y,
+                    min_score=self.min_rarity_score,
+                    extent=self.cb_loop_extent,
+                    n_neighbors=n_neighbors_cb_loop,
+                )
             case "l2min":
-                scores = calculate_l2min(X_scaled, y)
+                n_neighbors_l2min = self.n_neighbors if self.n_neighbors else 5
+                scores = calculate_l2min(
+                    X_scaled,
+                    y,
+                    n_neighbors=n_neighbors_l2min,
+                    psi=self.l2min_psi,
+                    beta=self.min_rarity_score,
+                )
 
                 # in case of multi-output, take the mean across outputs
                 # this is to ensure compatibility with the RandomForestClassifier
