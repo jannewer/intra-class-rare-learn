@@ -41,6 +41,10 @@ def _generate_sample_indices(
     They are used to bias sampling probabilities towards intra-class rare samples.
     """
 
+    if np.sum(rarity_scores) == 0:
+        # Fall back to uniform sampling if all rarity scores are 0 (no rare samples)
+        return np.random.randint(0, n_samples, size=n_samples_bootstrap)
+
     # Normalize rarity scores to make them sum to 1 (to use them as probabilities)
     rarity_scores = rarity_scores / np.sum(rarity_scores)
 
@@ -144,7 +148,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         The number of neighbors to consider for the rarity score calculation.
         If None, defaults to 10 for "cb_loop" and 5 for "l2min".
 
-    min_rarity_score : float, default=0.5
+    min_rarity_score : float, default=0.0
         The minimum rarity score to assign to samples that are not rare.
 
     cb_loop_extent : int, default=3
@@ -200,8 +204,8 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         rarity_measure="cb_loop",
         rarity_adjustment_method="bootstrap_sampling",
         n_neighbors=None,
-        min_rarity_score=0.5,
-        cb_loop_extent=2,
+        min_rarity_score=0.0,
+        cb_loop_extent=3,
         l2min_psi=1,
     ):
         super().__init__(

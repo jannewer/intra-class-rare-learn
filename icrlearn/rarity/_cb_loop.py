@@ -7,7 +7,7 @@ from PyNomaly import loop
 from sklearn.utils.validation import _num_samples
 
 
-def calculate_cb_loop(X, y, min_score=0.5, extent=3, n_neighbors=10, timing=False):
+def calculate_cb_loop(X, y, min_score=0.0, extent=3, n_neighbors=10, timing=False):
     if isinstance(X, pd.DataFrame):
         X = X.to_numpy()
 
