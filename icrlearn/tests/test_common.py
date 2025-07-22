@@ -51,6 +51,6 @@ def test_estimators(estimator, check, request):
     if estimator.__class__ == ICRRandomForestClassifier:
         # test with different parameters
         check(estimator.set_params(rarity_measure="cb_loop"))
-        check(estimator.set_params(rarity_measure="l2min"))
+        check(estimator.set_params(rarity_measure="l2class"))
     else:
         check(estimator)

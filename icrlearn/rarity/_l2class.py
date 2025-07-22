@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.neighbors import NearestNeighbors
 
 
-def calculate_l2min(X, y, n_neighbors=5, psi=1, beta=0.5):
+def calculate_l2class(X, y, n_neighbors=5, psi=1, beta=0.5):
     if isinstance(X, pd.DataFrame):
         X = X.to_numpy()
 

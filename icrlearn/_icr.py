@@ -27,7 +27,7 @@ from sklearn.utils.validation import (
 )
 
 from icrlearn.rarity import calculate_cb_loop
-from icrlearn.rarity._l2min import calculate_l2min
+from icrlearn.rarity._l2class import calculate_l2class
 
 
 def _generate_sample_indices(
@@ -133,9 +133,9 @@ class ICRRandomForestClassifier(RandomForestClassifier):
 
     Parameters
     ----------
-    rarity_measure : {"cb_loop", "l2min"}, default="cb_loop"
+    rarity_measure : {"cb_loop", "l2class"}, default="cb_loop"
         The rarity measure to be used for the rarity score calculation.
-        Supported values are "cb_loop" to use the CB-LoOP algorithm or "l2min" to use
+        Supported values are "cb_loop" to use the CB-LoOP algorithm or "l2class" to use
         the adapted L^2_min algorithm to calculate rarity scores.
 
     rarity_adjustment_method : {"bootstrap_sampling", "sample_weights"}, default="bootstrap_sampling"
@@ -146,7 +146,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
 
     n_neighbors : int, default=None
         The number of neighbors to consider for the rarity score calculation.
-        If None, defaults to 10 for "cb_loop" and 5 for "l2min".
+        If None, defaults to 10 for "cb_loop" and 5 for "l2class".
 
     min_rarity_score : float, default=0.0
         The minimum rarity score to assign to samples that are not rare.
@@ -157,9 +157,9 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         sensitivity of the scoring.
         See `PyNomaly documentation <https://github.com/vc1492a/PyNomaly?tab=readme-ov-file#choosing-parameters>`__ for more details.
 
-    l2min_psi : float, default=1
+    l2class_psi : float, default=1
         The psi parameter for the L^2_min algorithm. Only used if
-        `rarity_measure` is set to "l2min". This parameter controls the
+        `rarity_measure` is set to "l2class". This parameter controls the
         scaling of the count of other classes in the neighborhood.
         The default of 1 equates to a linear scaling.
 
@@ -206,7 +206,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         n_neighbors=None,
         min_rarity_score=0.0,
         cb_loop_extent=3,
-        l2min_psi=1,
+        l2class_psi=1,
     ):
         super().__init__(
             n_estimators=n_estimators,
@@ -234,16 +234,16 @@ class ICRRandomForestClassifier(RandomForestClassifier):
         self.n_neighbors = n_neighbors
         self.min_rarity_score = min_rarity_score
         self.cb_loop_extent = cb_loop_extent
-        self.l2min_psi = l2min_psi
+        self.l2class_psi = l2class_psi
 
     def __sklearn_tags__(self):
         tags = super().__sklearn_tags__()
         tags.classifier_tags.multi_label = False
         tags.input_tags.allow_nan = (
-            self.rarity_measure != "cb_loop" and self.rarity_measure != "l2min"
+            self.rarity_measure != "cb_loop" and self.rarity_measure != "l2class"
         )
         tags.input_tags.sparse = (
-            self.rarity_measure != "cb_loop" and self.rarity_measure != "l2min"
+            self.rarity_measure != "cb_loop" and self.rarity_measure != "l2class"
         )
         return tags
 
@@ -280,13 +280,13 @@ class ICRRandomForestClassifier(RandomForestClassifier):
                     extent=self.cb_loop_extent,
                     n_neighbors=n_neighbors_cb_loop,
                 )
-            case "l2min":
-                n_neighbors_l2min = self.n_neighbors if self.n_neighbors else 5
-                scores = calculate_l2min(
+            case "l2class":
+                n_neighbors_l2class = self.n_neighbors if self.n_neighbors else 5
+                scores = calculate_l2class(
                     X_scaled,
                     y,
-                    n_neighbors=n_neighbors_l2min,
-                    psi=self.l2min_psi,
+                    n_neighbors=n_neighbors_l2class,
+                    psi=self.l2class_psi,
                     beta=self.min_rarity_score,
                 )
 
