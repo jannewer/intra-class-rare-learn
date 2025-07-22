@@ -47,8 +47,8 @@ def calculate_cb_loop(X, y, min_score=0.5, extent=3, n_neighbors=10, timing=Fals
 
             continue
 
-        # Scale the loop values to the range [min_score, 2 * min_score]
-        loop_values_class = min_score * (loop_values_class + 1)
+        # Scale the loop values to the range [min_score, 1]
+        loop_values_class[loop_values_class == 0] = min_score
         rarity_scores[class_indices] = loop_values_class
 
         if timing:
