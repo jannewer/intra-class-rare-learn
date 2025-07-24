@@ -9,6 +9,10 @@ It is based on the [template project](https://github.com/scikit-learn-contrib/pr
 for [scikit-learn](https://scikit-learn.org) compatible extensions,
 but was modified to use [uv](https://docs.astral.sh/uv/) instead of pixi.
 
+## Documentation
+
+Documentation is available at https://jannewer.github.io/intra-class-rare-learn/
+
 ## Development
 For development, make sure you have uv installed: https://docs.astral.sh/uv/getting-started/installation/
 
