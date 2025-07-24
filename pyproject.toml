@@ -66,7 +66,7 @@ clean-doc = { cmd = "rm -rf _build", cwd = "doc" }
 
 [tool.black]
 line-length = 88
-target_version = ['py38', 'py39', 'py310']
+target_version = ['py310']
 preview = true
 exclude = '''
 /(
@@ -80,7 +80,7 @@ force-exclude = "icrlearn/_version.py"
 [tool.ruff]
 # max line length for black
 line-length = 88
-target-version = "py38"
+target-version = "py310"
 exclude = [
     ".git",
     "__pycache__",
