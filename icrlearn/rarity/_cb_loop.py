@@ -8,6 +8,41 @@ from sklearn.utils.validation import _num_samples
 
 
 def calculate_cb_loop(X, y, min_score=0.0, extent=3, n_neighbors=10, timing=False):
+    """Calculate Class-Based Local Outlier Probability (CB-LoOP) rarity scores.
+
+    Parameters
+    ----------
+    X : {array-like, sparse matrix} of shape (n_samples, n_features)
+        The input samples. Internally, its dtype will be converted
+        to ``dtype=np.float32``. If a sparse matrix is provided, it will be
+        converted into a sparse ``csc_matrix``.
+
+    y : array-like of shape (n_samples,) or (n_samples, n_outputs)
+        The class labels of the input samples.
+
+    min_score : float, default=0.0
+        The minimum rarity score to assign to samples that are not rare.
+        Samples with a rarity score of 0.0 will be set to `min_score`.
+
+    extent : int, default=3
+        The extent of the local neighborhood to consider.
+        See `PyNomaly.loop.LocalOutlierProbability` for more details.
+
+    n_neighbors : int, default=10
+        The number of neighbors to consider.
+
+    timing : bool, default=False
+        If True, prints the time taken for processing each class.
+
+    Returns
+    -------
+    np.ndarray of shape (n_samples,)
+        The rarity scores for each sample in `X`.
+        If `min_score` is set to 0.0, the scores will be in the range [0, 1],
+        where 0 indicates a common sample and 1 indicates a rare sample.
+
+    """
+
     if isinstance(X, pd.DataFrame):
         X = X.to_numpy()
 
