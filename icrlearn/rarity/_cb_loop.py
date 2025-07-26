@@ -22,7 +22,7 @@ def calculate_cb_loop(X, y, min_score=0.0, extent=3, n_neighbors=10, timing=Fals
 
     min_score : float, default=0.0
         The minimum rarity score to assign to samples that are not rare.
-        Samples with a rarity score of 0.0 will be set to `min_score`.
+        Samples with a rarity score smaller than min_score will be set to `min_score`.
 
     extent : int, default=3
         The extent of the local neighborhood to consider.
@@ -83,7 +83,7 @@ def calculate_cb_loop(X, y, min_score=0.0, extent=3, n_neighbors=10, timing=Fals
             continue
 
         # Scale the loop values to the range [min_score, 1]
-        loop_values_class[loop_values_class == 0] = min_score
+        loop_values_class[loop_values_class <= min_score] = min_score
         rarity_scores[class_indices] = loop_values_class
 
         if timing:
