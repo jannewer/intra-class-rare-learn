@@ -359,11 +359,68 @@
                   
   <section id="user-guide">
 <span id="id1"></span><h1>User Guide<a class="headerlink" href="#user-guide" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Rare samples in datasets often represent novel patterns, edge cases, or important
+subpopulations, and can therefore be crucial for understanding the true complexity of
+the data. In classification tasks, a special form of rarity emerges: instances that are rare relative
+to their assigned class label.
+These samples may not be rare in a global sense, but they represent an uncommon
+subconcept within their class. Just as globally rare samples can offer new insights into a
+dataset as a whole, these intra-class rare samples can reveal valuable information about
+the internal structure of their respective class.
+However, in traditional machine learning algorithms these samples usually
+have little influence on model training due to their rare nature.
+This package provides a set of sklearn-compatible estimators and methods that are built to
+measure and handle intra-class rarity, allowing these rare samples to have a more significant
+impact on model training and prediction.</p>
+</section>
 <section id="icrrandomforestclassifier">
 <h2>ICRRandomForestClassifier<a class="headerlink" href="#icrrandomforestclassifier" title="Link to this heading">#</a></h2>
 <p>The icrlearn package provides a new algorithm called Intra-Class Rare Random Forest.
 This algorithm is a modification of the Random Forest algorithm that is designed to
-handle data with intra-class imbalance in the form of rare samples within a class.</p>
+handle data with intra-class imbalance in the form of rare samples within a class.
+It uses a specified intra-class rarity measure to quantify the intra-class rarity of samples
+in a dataset and adjust the bootstrap sampling of the training data or to apply corresponding
+sample weights accordingly.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">icrlearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">ICRRandomForestClassifier</span>
+
+<span class="n">clf</span> <span class="o">=</span> <span class="n">ICRRandomForestClassifier</span><span class="p">(</span><span class="n">rarity_measure</span><span class="o">=</span><span class="s2">&quot;l2class&quot;</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="rarity-measures">
+<h2>Rarity Measures<a class="headerlink" href="#rarity-measures" title="Link to this heading">#</a></h2>
+<p>The rarity measures in this package are designed to quantify how rare a sample is within its class.
+They are used by the ICRRandomForestClassifier to adjust the sampling of the training data or to apply
+sample weights. The measures can also be used independently to analyze the rarity of samples in a dataset.</p>
+<div class="line-block">
+<div class="line">They are based on two existing methods:</div>
+<div class="line">1. Local Outlier Probability (LoOP) [1]</div>
+<div class="line">LoOP is a local density based outlier detection method by Kriegel et al. that is based on Local Outlier Factor (LOF), but provides outlier scores in the range of [0,1]. It is implemented in PyNomaly (<span class="xref std std-ref">https://github.com/vc1492a/PyNomaly</span>).</div>
+</div>
+<div class="line-block">
+<div class="line">2. L²-min [2]</div>
+<div class="line">L²-min is a method by Błaszczyński and Stefanowski that calculates the rarity of a sample based on the distance to its k-nearest neighbors within its class.</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">icrlearn.rarity</span><span class="w"> </span><span class="kn">import</span> <span class="n">calculate_cb_loop</span><span class="p">,</span> <span class="n">calculate_l2class</span>
+
+<span class="c1"># Class-Based Local Outlier Probability</span>
+<span class="n">cb_scores</span> <span class="o">=</span> <span class="n">calculate_cb_loop</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Adapted L²-min rarity across classes</span>
+<span class="n">l2_scores</span> <span class="o">=</span> <span class="n">calculate_l2class</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">For more information on using the classifier and the rarity measures, refer to the <a class="reference internal" href="api.html#api"><span class="std std-ref">API reference</span></a>.</div>
+</div>
+<div class="line-block">
+<div class="line">[1] H.-P. Kriegel, P. Kröger, E. Schubert, and A. Zimek, “LoOP: local outlier probabilities,” in Proceedings of the 18th ACM conference on Information and knowledge management, Hong Kong China: ACM, Nov. 2009, pp. 1649–1652. doi: 10.1145/1645953.1646195.</div>
+<div class="line">[2] J. Błaszczyński and J. Stefanowski, “Neighbourhood sampling in bagging for imbalanced data,” Neurocomputing, vol. 150, pp. 529–542, Feb. 2015, doi: 10.1016/j.neucom.2014.07.064.</div>
+</div>
 </section>
 </section>
 
@@ -414,7 +471,9 @@ handle data with intra-class imbalance in the form of rare samples within a clas
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#icrrandomforestclassifier">ICRRandomForestClassifier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#rarity-measures">Rarity Measures</a></li>
 </ul>
   </nav></div>
 
