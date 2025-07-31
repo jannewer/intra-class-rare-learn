@@ -365,7 +365,7 @@ name = "exceptiongroup"
 version = "1.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "typing-extensions", marker = "python_full_version < '3.13'" },
+    { name = "typing-extensions", marker = "python_full_version < '3.11'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/0b/9f/a65090624ecf468cdca03533906e7c69ed7588582240cfe7cc9e770b50eb/exceptiongroup-1.3.0.tar.gz", hash = "sha256:b241f5885f560bc56a59ee63ca4c6a8bfa46ae4ad651af316d4e81817bb9fd88", size = 29749 }
 wheels = [
@@ -430,7 +430,9 @@ dependencies = [
     { name = "black" },
     { name = "matplotlib" },
     { name = "numba" },
+    { name = "numpy" },
     { name = "numpydoc" },
+    { name = "pandas" },
     { name = "pre-commit" },
     { name = "pydata-sphinx-theme" },
     { name = "pynomaly" },
@@ -438,8 +440,6 @@ dependencies = [
     { name = "pytest-cov" },
     { name = "ruff" },
     { name = "scikit-learn" },
-    { name = "scipy", version = "1.15.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
-    { name = "scipy", version = "1.16.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "seaborn" },
     { name = "setuptools-scm" },
     { name = "sphinx", version = "8.1.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
@@ -460,7 +460,9 @@ requires-dist = [
     { name = "black", specifier = "==23.3.0" },
     { name = "matplotlib", specifier = ">=3.9.4" },
     { name = "numba", specifier = ">=0.60.0" },
+    { name = "numpy", specifier = ">=2.2.6" },
     { name = "numpydoc", specifier = ">=1.8.0" },
+    { name = "pandas", specifier = ">=2.3.1" },
     { name = "pre-commit", specifier = ">=3.7.1" },
     { name = "pydata-sphinx-theme", specifier = ">=0.16.1" },
     { name = "pynomaly", specifier = ">=0.3.4" },
@@ -468,7 +470,6 @@ requires-dist = [
     { name = "pytest-cov", specifier = ">=6.0.0" },
     { name = "ruff", specifier = ">=0.9.10" },
     { name = "scikit-learn", specifier = ">=1.7.1" },
-    { name = "scipy", specifier = ">=1.13.1" },
     { name = "seaborn", specifier = ">=0.13.2" },
     { name = "setuptools-scm", specifier = ">=8.2.0" },
     { name = "sphinx", specifier = ">=7.4.7" },
