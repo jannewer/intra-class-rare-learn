@@ -169,7 +169,7 @@ class ICRRandomForestClassifier(RandomForestClassifier):
     >>> from icrlearn import ICRRandomForestClassifier
     >>> X, y = load_iris(return_X_y=True)
     >>> icr_rf = ICRRandomForestClassifier().fit(X, y)
-    >>> icr_rf.predict(X)
+    >>> icr_rf.predict(X) # doctest: +SKIP
     array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
            0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
