@@ -11,7 +11,8 @@ but was modified to use [uv](https://docs.astral.sh/uv/) instead of pixi.
 
 ## Installation
 
-The package can be installed directly from GitHub using uv with `uv add icrlearn git+https://github.com/jannewer/intra-class-rare-learn.git`
+The package can be installed with uv using `uv add icrlearn` or with pip using `pip install icrlearn`. \
+You can also install the version from the main branch (instable!) directly from GitHub using uv with `uv add icrlearn git+https://github.com/jannewer/intra-class-rare-learn.git`
 
 ## Documentation
 
