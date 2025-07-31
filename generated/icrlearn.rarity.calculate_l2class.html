@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>icrlearn.utils.discovery.all_estimators &#8212; Scikit-learn Project Template 0.0.1 documentation</title>
+    <title>icrlearn.rarity.calculate_l2class &#8212; Scikit-learn Project Template 0.0.1 documentation</title>
   
   
   
@@ -49,11 +49,11 @@
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/icrlearn.utils.discovery.all_estimators';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'generated/icrlearn.rarity.calculate_l2class';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="icrlearn.utils.discovery.all_displays" href="icrlearn.utils.discovery.all_displays.html" />
-    <link rel="prev" title="icrlearn.rarity.calculate_l2class" href="icrlearn.rarity.calculate_l2class.html" />
+    <link rel="next" title="icrlearn.utils.discovery.all_estimators" href="icrlearn.utils.discovery.all_estimators.html" />
+    <link rel="prev" title="icrlearn.rarity.calculate_cb_loop" href="icrlearn.rarity.calculate_cb_loop.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="0.0.1" />
@@ -313,12 +313,12 @@
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="icrlearn.ICRRandomForestClassifier.html">ICRRandomForestClassifier</a></li>
 </ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="icrlearn.rarity.calculate_cb_loop.html">icrlearn.rarity.calculate_cb_loop</a></li>
-<li class="toctree-l1"><a class="reference internal" href="icrlearn.rarity.calculate_l2class.html">icrlearn.rarity.calculate_l2class</a></li>
-</ul>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">icrlearn.utils.discovery.all_estimators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="icrlearn.rarity.calculate_cb_loop.html">icrlearn.rarity.calculate_cb_loop</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">icrlearn.rarity.calculate_l2class</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="icrlearn.utils.discovery.all_estimators.html">icrlearn.utils.discovery.all_estimators</a></li>
 <li class="toctree-l1"><a class="reference internal" href="icrlearn.utils.discovery.all_displays.html">icrlearn.utils.discovery.all_displays</a></li>
 <li class="toctree-l1"><a class="reference internal" href="icrlearn.utils.discovery.all_functions.html">icrlearn.utils.discovery.all_functions</a></li>
 </ul>
@@ -364,7 +364,7 @@
     
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">icrlearn.utils.discovery.all_estimators</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">icrlearn.rarity.calculate_l2class</span></li>
   </ul>
 </nav>
 </div>
@@ -381,41 +381,39 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="icrlearn-utils-discovery-all-estimators">
-<h1>icrlearn.utils.discovery.all_estimators<a class="headerlink" href="#icrlearn-utils-discovery-all-estimators" title="Link to this heading">#</a></h1>
+  <section id="icrlearn-rarity-calculate-l2class">
+<h1>icrlearn.rarity.calculate_l2class<a class="headerlink" href="#icrlearn-rarity-calculate-l2class" title="Link to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="icrlearn.utils.discovery.all_estimators">
-<span class="sig-prename descclassname"><span class="pre">icrlearn.utils.discovery.</span></span><span class="sig-name descname"><span class="pre">all_estimators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_filter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icrlearn.utils.discovery.all_estimators" title="Link to this definition">#</a></dt>
-<dd><p>Get a list of all estimators from <code class="docutils literal notranslate"><span class="pre">icrlearn</span></code>.</p>
-<p>This function crawls the module and gets all classes that inherit
-from <code class="docutils literal notranslate"><span class="pre">BaseEstimator</span></code>. Classes that are defined in test-modules are not
-included.</p>
+<dt class="sig sig-object py" id="icrlearn.rarity.calculate_l2class">
+<span class="sig-prename descclassname"><span class="pre">icrlearn.rarity.</span></span><span class="sig-name descname"><span class="pre">calculate_l2class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_neighbors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#icrlearn.rarity.calculate_l2class" title="Link to this definition">#</a></dt>
+<dd><p>Calculate L2Class rarity scores.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>type_filter</strong><span class="classifier">{“classifier”, “regressor”, “cluster”, “transformer”}             or list of such str, default=None</span></dt><dd><p>Which kind of estimators should be returned. If None, no filter is
-applied and all estimators are returned.  Possible values are
-‘classifier’, ‘regressor’, ‘cluster’ and ‘transformer’ to get
-estimators only of these specific types, or a list of these to
-get the estimators that fit at least one of the types.</p>
+<dt><strong>X</strong><span class="classifier">{array-like, sparse matrix} of shape (n_samples, n_features)</span></dt><dd><p>The input samples. Internally, its dtype will be converted
+to <code class="docutils literal notranslate"><span class="pre">dtype=np.float32</span></code>. If a sparse matrix is provided, it will be
+converted into a sparse <code class="docutils literal notranslate"><span class="pre">csc_matrix</span></code>.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">array-like of shape (n_samples,) or (n_samples, n_outputs)</span></dt><dd><p>The class labels of the input samples.</p>
+</dd>
+<dt><strong>n_neighbors</strong><span class="classifier">int, default=5</span></dt><dd><p>The number of neighbors to consider for the rarity score calculation.</p>
+</dd>
+<dt><strong>psi</strong><span class="classifier">float, default=1</span></dt><dd><p>The exponent to scale the count of other classes.
+The default of 1 equates to a linear scaling.</p>
+</dd>
+<dt><strong>beta</strong><span class="classifier">float, default=0.5</span></dt><dd><p>The minimum rarity score to assign to samples that are not rare.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><strong>estimators</strong><span class="classifier">list of tuples</span></dt><dd><p>List of (name, class), where <code class="docutils literal notranslate"><span class="pre">name</span></code> is the class name as string
-and <code class="docutils literal notranslate"><span class="pre">class</span></code> is the actual type of the class.</p>
+<dt>np.ndarray of shape (n_samples,)</dt><dd><p>The rarity scores for each sample in <code class="docutils literal notranslate"><span class="pre">X</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">beta</span></code> is set to 0.0, the scores will be in the range [0, 1],
+where 0 indicates a common sample and 1 indicates a rare sample.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">icrlearn.utils.discovery</span><span class="w"> </span><span class="kn">import</span> <span class="n">all_estimators</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">estimators</span> <span class="o">=</span> <span class="n">all_estimators</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">estimators</span><span class="p">)</span>
-<span class="go">&lt;class &#39;list&#39;&gt;</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>
@@ -431,20 +429,20 @@ and <code class="docutils literal notranslate"><span class="pre">class</span></c
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="icrlearn.rarity.calculate_l2class.html"
+       href="icrlearn.rarity.calculate_cb_loop.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">icrlearn.rarity.calculate_l2class</p>
+        <p class="prev-next-title">icrlearn.rarity.calculate_cb_loop</p>
       </div>
     </a>
     <a class="right-next"
-       href="icrlearn.utils.discovery.all_displays.html"
+       href="icrlearn.utils.discovery.all_estimators.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">icrlearn.utils.discovery.all_displays</p>
+        <p class="prev-next-title">icrlearn.utils.discovery.all_estimators</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -467,7 +465,7 @@ and <code class="docutils literal notranslate"><span class="pre">class</span></c
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#icrlearn.utils.discovery.all_estimators"><code class="docutils literal notranslate"><span class="pre">all_estimators()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#icrlearn.rarity.calculate_l2class"><code class="docutils literal notranslate"><span class="pre">calculate_l2class()</span></code></a></li>
 </ul>
   </nav></div>
 
@@ -475,7 +473,7 @@ and <code class="docutils literal notranslate"><span class="pre">class</span></c
 
   
   <div class="tocsection editthispage">
-    <a href="https://github.com/jannewer/intra-class-rare-learn/edit/main/doc/generated/icrlearn.utils.discovery.all_estimators.rst">
+    <a href="https://github.com/jannewer/intra-class-rare-learn/edit/main/doc/generated/icrlearn.rarity.calculate_l2class.rst">
       <i class="fa-solid fa-pencil"></i>
       
       
@@ -491,7 +489,7 @@ and <code class="docutils literal notranslate"><span class="pre">class</span></c
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/generated/icrlearn.utils.discovery.all_estimators.rst.txt"
+      <li><a href="../_sources/generated/icrlearn.rarity.calculate_l2class.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

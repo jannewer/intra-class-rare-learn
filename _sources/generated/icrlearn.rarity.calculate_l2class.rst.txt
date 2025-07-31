@@ -1,0 +1,6 @@
+﻿icrlearn.rarity.calculate\_l2class
+==================================
+
+.. currentmodule:: icrlearn.rarity
+
+.. autofunction:: calculate_l2class

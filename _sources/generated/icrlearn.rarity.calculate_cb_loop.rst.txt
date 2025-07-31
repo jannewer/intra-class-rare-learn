@@ -1,0 +1,6 @@
+﻿icrlearn.rarity.calculate\_cb\_loop
+===================================
+
+.. currentmodule:: icrlearn.rarity
+
+.. autofunction:: calculate_cb_loop

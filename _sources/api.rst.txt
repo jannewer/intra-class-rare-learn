@@ -18,6 +18,15 @@ Predictor
 
     ICRRandomForestClassifier
 
+Rarity Measures
+===============
+
+.. autosummary::
+   :toctree: generated/
+   :template: functions.rst
+
+    rarity.calculate_cb_loop
+    rarity.calculate_l2class
 
 Utilities
 =========
