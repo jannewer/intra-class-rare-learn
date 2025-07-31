@@ -26,7 +26,7 @@ def calculate_cb_loop(X, y, min_score=0.0, extent=3, n_neighbors=10, timing=Fals
 
     extent : int, default=3
         The extent of the local neighborhood to consider.
-        See `PyNomaly.loop.LocalOutlierProbability` for more details.
+        See :func:`PyNomaly.loop.LocalOutlierProbability` for more details.
 
     n_neighbors : int, default=10
         The number of neighbors to consider.
